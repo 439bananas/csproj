@@ -19,3 +19,10 @@ This file, here.
 ## Description
 This file installs the necessary dependencies for the end user and downloads the entire project. This will be found at https://nodir.439bananas.com/csproj/setup.bat.
 
+```rem The following line hides the commands that shall be shown
+@echo off
+OUTPUT “Setting up music game quiz project. This could take a while…”
+rem Installing dependencies
+INSTALL w/pip mysql.connector
+rem Getting code
+CLONE https://github.com/439bananas/csproj```
