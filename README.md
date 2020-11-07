@@ -26,3 +26,12 @@ rem Installing dependencies
 INSTALL w/pip mysql.connector
 rem Getting code
 CLONE https://github.com/439bananas/csproj```
+
+# setup.sh
+## Description
+This file works the same way as the above batch file but instead is intended for Linux/MacOS users.
+
+```OUTPUT “Setting up music game quiz project. This could take a while…”
+sudo apt-get update # Best to update stuff before installing software 
+INSTALL w/pip mysql.connector # Installing dependencies
+CLONE https://github.com/439bananas/csproj # Getting code```
