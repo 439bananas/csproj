@@ -19,7 +19,7 @@ This file, here.
 ## Description
 This file installs the necessary dependencies for the end user and downloads the entire project. This will be found at https://nodir.439bananas.com/csproj/setup.bat.
 
-```rem The following line hides the commands that shall be shown
+```rem The following line hides the commands would shall be shown
 @echo off
 OUTPUT “Setting up music game quiz project. This could take a while…”
 rem Installing dependencies
@@ -33,7 +33,7 @@ CLONE https://github.com/439bananas/csproj
 This file works the same way as the above batch file but instead is intended for Linux/MacOS users.
 
 ```OUTPUT “Setting up music game quiz project. This could take a while…”
-sudo apt-get update # Best to update stuff before installing software 
+sudo apt-get update && s#udo apt-get dist-upgrade Best to update stuff before installing software 
 INSTALL w/pip mysql.connector # Installing dependencies
 CLONE https://github.com/439bananas/csproj # Getting code
 ```
@@ -55,11 +55,11 @@ Creates database tables. If these already exist, then user and song management i
 
 ```import mysql.connector # W3Schools
 use file db.txt as db
-use file username.txt as username
-use file password.txt as password
+use file username.txt as dbusername
+use file password.txt as dbpassword
 use file songnames.txt as songnames
 use file songwriters.txt as songwriters
-mysql.connector.connect(username, password, db)
+mysql.connector.connect(dbusername, dbpassword, db)
 # If not users table, create and ask for admin account
 IF (!USERS TABLE)
    CREATE TABLE “users”
