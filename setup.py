@@ -4,7 +4,7 @@ dbpassword = open("password.txt", "r").read()
 dbname = open("db.txt", "r").read()
 songnames = open("songwriters.txt", "r").read()
 songwriters = open("songwriters.txt", "r").read()
-db = mysql.connector.connect(host='localhost', database=dbname, user=dbusername password=dbpassword) # https://www.w3schools.com/python/python_mysql_create_db.asp
+db = mysql.connector.connect(host='localhost', database=dbname, user=dbusername, password=dbpassword) # https://www.w3schools.com/python/python_mysql_create_db.asp
 cursor = db.cursor()
 
 cursor.execute("SHOW TABLES")
@@ -12,7 +12,7 @@ tablefound = false
 for table in cursor:
   if table == "users":
     tablefound = true
-  else
+  else:
     if table != "users":
       tablefound = false
 
@@ -25,9 +25,10 @@ if tablefound == false:
   while len(masterpassword) < 8 or masterpassword == masterusername:
     masterpassword = input("Enter a strong password.")
     if len(masterpassword) < 8 or masterpassword == masterusername:
-      print("Invalid password!)
+      print("Invalid password!")
   while confirmpassword != masterpassword:
     confirmpassword = input("Confirm password")
     if confirmpassword != masterpassword:
       print("Passwords do not match!")
-  cursor.execute("INSERT INTO users VALUES(--);")
+  cursor.execute("INSERT INTO users VALUES(" + masterusername + ", SHA2(" + masterpassword + ", 256), true);") # https://www.mysqltutorial.org/mysql-insert-statement.aspx https://stackoverflow.com/questions/34712665/mysql-sha256-with-insert-statement
+  
