@@ -4,5 +4,15 @@ dbpassword = open("password.txt", "r").read()
 dbname = open("db.txt", "r").read()
 songnames = open("songwriters.txt", "r").read()
 songwriters = open("songwriters.txt", "r").read()
-db = mysql.connector.connect(host='localhost', database=dbname, user=dbusername password=dbpassword)
-if 
+db = mysql.connector.connect(host='localhost', database=dbname, user=dbusername password=dbpassword) # https://www.w3schools.com/python/python_mysql_create_db.asp
+cursor = db.cursor()
+
+cursor.execute("SHOW TABLES")
+tablefound = false
+for table in cursor:
+  if table == "users":
+    tablefound = true
+  else if table != "users":
+      tablefound = false
+
+
