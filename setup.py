@@ -8,26 +8,26 @@ db = mysql.connector.connect(host='localhost', database=dbname, user=dbusername,
 cursor = db.cursor()
 
 cursor.execute("SHOW TABLES")
-tablefound = false
+tablefound = "false"
 for table in cursor:
   if table == "users":
-    tablefound = true
+    tablefound = "true"
   else:
     if table != "users":
-      tablefound = false
+      tablefound = "false"
 
-if tablefound == false:
+if tablefound == "false":
   cursor.execute("CREATE TABLE users (username TEXT, password TEXT, admin BOOLEAN)")
 
-  masterusername = input("Enter a username. This will be used as an administrator account to manage every user and song.")
+  masterusername = input("Enter a username. This will be used as an administrator account to manage every user and song: ")
   masterpassword = ""
   confirmpassword = ""
   while len(masterpassword) < 8 or masterpassword == masterusername:
-    masterpassword = input("Enter a strong password.")
+    masterpassword = input("Enter a strong password: ")
     if len(masterpassword) < 8 or masterpassword == masterusername:
       print("Invalid password!")
   while confirmpassword != masterpassword:
-    confirmpassword = input("Confirm password")
+    confirmpassword = input("Confirm password: ")
     if confirmpassword != masterpassword:
       print("Passwords do not match!")
   cursor.execute("INSERT INTO users VALUES(" + masterusername + ", SHA2(" + masterpassword + ", 256), true);") # https://www.mysqltutorial.org/mysql-insert-statement.aspx https://stackoverflow.com/questions/34712665/mysql-sha256-with-insert-statement
