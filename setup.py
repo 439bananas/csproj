@@ -30,3 +30,4 @@ if tablefound == false:
     confirmpassword = input("Confirm password")
     if confirmpassword != masterpassword:
       print("Passwords do not match!")
+  cursor.execute("INSERT INTO users VALUES(--);")
