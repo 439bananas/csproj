@@ -12,7 +12,8 @@ tablefound = false
 for table in cursor:
   if table == "users":
     tablefound = true
-  else if table != "users":
+  else
+    if table != "users":
       tablefound = false
 
 
