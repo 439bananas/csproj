@@ -42,4 +42,4 @@ if tablefound == "false":
       quit()
   cursor.execute("INSERT INTO users VALUES('" + masterusername + "', SHA2('" + masterpassword + "', 256), true);") # https://www.mysqltutorial.org/mysql-insert-statement.aspx https://stackoverflow.com/questions/34712665/mysql-sha256-with-insert-statement
 else:
-  username = input("Enter an administrator’s username")
+  username = input("Enter an administrator’s username: ")
