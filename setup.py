@@ -1,4 +1,5 @@
 import mysql.connector # https://www.geeksforgeeks.org/mysql-connector-python-module-in-python/ along with line 7
+import getpass # https://pymotw.com/2/getpass/
 dbusername = open("username.txt", "r").read()
 dbpassword = open("password.txt", "r").read()
 dbname = open("db.txt", "r").read()
@@ -26,18 +27,19 @@ if tablefound == "false":
   masterpassword = ""
   confirmpassword = ""
   while len(masterpassword) < 8 or masterpassword == masterusername:
-    masterpassword = input("Enter a strong password: ")
+    masterpassword = getpass.getpass(prompt="Enter a strong password:")
     if len(masterpassword) < 8 or masterpassword == masterusername:
       print("Invalid password!")
     if " " in masterpassword:
       print("You must not have any spaces in your password!")
       quit()
   while confirmpassword != masterpassword:
-    confirmpassword = input("Confirm password: ")
+    confirmpassword = getpass.getpass(prompt="Confirm password: ")
     if confirmpassword != masterpassword:
       print("Passwords do not match!")
     if " " in masterpassword:
       print("You must not have any spaces in your password!")
       quit()
   cursor.execute("INSERT INTO users VALUES('" + masterusername + "', SHA2('" + masterpassword + "', 256), true);") # https://www.mysqltutorial.org/mysql-insert-statement.aspx https://stackoverflow.com/questions/34712665/mysql-sha256-with-insert-statement
-  
+else:
+  username = input("Enter an administrator’s username")
