@@ -20,15 +20,24 @@ if tablefound == "false":
   cursor.execute("CREATE TABLE users (username TEXT, password TEXT, admin BOOLEAN)")
 
   masterusername = input("Enter a username. This will be used as an administrator account to manage every user and song: ")
+  if " " in masterusername:
+    print("You must not have any spaces in your username!")
+    quit()
   masterpassword = ""
   confirmpassword = ""
   while len(masterpassword) < 8 or masterpassword == masterusername:
     masterpassword = input("Enter a strong password: ")
     if len(masterpassword) < 8 or masterpassword == masterusername:
       print("Invalid password!")
+    if " " in masterpassword:
+      print("You must not have any spaces in your password!")
+      quit()
   while confirmpassword != masterpassword:
     confirmpassword = input("Confirm password: ")
     if confirmpassword != masterpassword:
       print("Passwords do not match!")
-  cursor.execute("INSERT INTO users VALUES(" + masterusername + ", SHA2(" + masterpassword + ", 256), true);") # https://www.mysqltutorial.org/mysql-insert-statement.aspx https://stackoverflow.com/questions/34712665/mysql-sha256-with-insert-statement
+    if " " in masterpassword:
+      print("You must not have any spaces in your password!")
+      quit()
+  cursor.execute("INSERT INTO users VALUES('" + masterusername + "', SHA2('" + masterpassword + "', 256), true);") # https://www.mysqltutorial.org/mysql-insert-statement.aspx https://stackoverflow.com/questions/34712665/mysql-sha256-with-insert-statement
   
