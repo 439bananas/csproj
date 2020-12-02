@@ -43,3 +43,11 @@ if tablefound == "false":
   cursor.execute("INSERT INTO users VALUES('" + masterusername + "', SHA2('" + masterpassword + "', 256), true);") # https://www.mysqltutorial.org/mysql-insert-statement.aspx https://stackoverflow.com/questions/34712665/mysql-sha256-with-insert-statement
 else:
   username = input("Enter an administrator’s username: ")
+    if " " in username:
+    print("You must not have any spaces in your username!")
+    quit()
+  password = getpass.getpass(prompt="Enter their password: ")
+    if " " in password:
+    print("You must not have any spaces in your password!")
+    quit()
+  
