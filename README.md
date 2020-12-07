@@ -6,7 +6,7 @@ In each part of my pseudocode, I will write comments on what this code will do f
 # Prerequisites
 * Python (and added to path)
 * Git (and added to path)
-* A MySQL user (recommended not to use root!) and database. If you want to automate the database creation and preparation, feel free to run `sudo mysql -u root -p mysql < dbprep.sql` (https://gist.github.com/439bananas/c3e585424cba6f9b9ee4e730e4e6b0c1)
+* A MySQL user (recommended not to use root!) and database. If you want to automate the database creation and preparation, feel free to run `sudo mysql -u root -p mysql < dbprep.sql` (https://github.com/439bananas/csproj/blob/master/dbprep.sql)
 
 # Running/configuring
 To configure the project, run python3 setup.py in your command line of choice. When run for the first time, the project will create user tables and ask you to set up a master username and password. When rerun, you will be presented with a prompt as to what you wish to do. To add songs, enter “2” followed by “1”. You will then be prompted to enter a song name and its writer.
