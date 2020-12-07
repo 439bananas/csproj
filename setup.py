@@ -50,4 +50,5 @@ else:
     if " " in password:
     print("You must not have any spaces in your password!")
     quit()
-  
+  cursor.execute("SELECT * FROM users;")
+  print(cursor)
