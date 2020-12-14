@@ -1,3 +1,6 @@
+#Useful things (THIS SECTION WILL BE OMITTED ENTIRELY!!!!!!!!!!!!!!!!)
+https://codeanywhere.com
+
 # Introduction
 I have selected the “music quiz game” project, task 1.\
 This project is particularly useful in the real world, mainly for satisfying boredom. However, it does get particularly complex, the more songs there are and the longer each one’s length. This project will be written in Python, which provides access to easily reading/writing files (fs is absolutely HORRIBLE. period), MySQL and other things. Python does the job.\
