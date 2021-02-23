@@ -1,21 +1,19 @@
 import mysql.connector # https://www.geeksforgeeks.org/mysql-connector-python-module-in-python/ along with line 7
 import getpass # https://pymotw.com/2/getpass/
+dbhost = open("dbhost.txt", "r").read()
 dbusername = open("username.txt", "r").read()
 dbpassword = open("password.txt", "r").read()
 dbname = open("db.txt", "r").read()
 songnames = open("songwriters.txt", "r").read()
 songwriters = open("songwriters.txt", "r").read()
-db = mysql.connector.connect(host='localhost', database=dbname, user=dbusername, password=dbpassword) # https://www.w3schools.com/python/python_mysql_create_db.asp
+db = mysql.connector.connect(host=dbhost, database=dbname, user=dbusername, password=dbpassword) # https://www.w3schools.com/python/python_mysql_create_db.asp
 cursor = db.cursor()
 
 cursor.execute("SHOW TABLES")
 tablefound = "false"
-for table in cursor:
-  if table == "users":
+for x in cursor:
+  if x[0] == "users": # https://stackoverflow.com/questions/28624796/removing-characters-from-mysql-query-results-in-python
     tablefound = "true"
-  else:
-    if table != "users":
-      tablefound = "false"
 
 if tablefound == "false":
   cursor.execute("CREATE TABLE users (username TEXT, password TEXT, admin BOOLEAN)")
@@ -40,7 +38,7 @@ if tablefound == "false":
     if " " in masterpassword:
       print("You must not have any spaces in your password!")
       quit()
-  cursor.execute("INSERT INTO users VALUES('" + masterusername + "', SHA2('" + masterpassword + "', 256), true);") # https://www.mysqltutorial.org/mysql-insert-statement.aspx https://stackoverflow.com/questions/34712665/mysql-sha256-with-insert-statement
+  cursor.execute("INSERT INTO users (username, password, admin) VALUES ('" + masterusername + "', SHA2('" + masterpassword + "', 256), true)") # https://www.mysqltutorial.org/mysql-insert-statement.aspx https://stackoverflow.com/questions/34712665/mysql-sha256-with-insert-statement
 else:
   username = input("Enter an administrator’s username: ")
   if " " in username:
@@ -51,4 +49,4 @@ else:
     print("You must not have any spaces in your password!")
     quit()
   cursor.execute("SELECT * FROM users;")
-  print(cursor)
+  print(cursor.fetchall())
