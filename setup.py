@@ -85,6 +85,8 @@ def admin():
           #if 1
           #cursor.execute("UPDATE users SET admin 0 WHERE username='" + str(result[usertotoggleadmin-1][2]) + "'") 
           ##db.commit()
+
+          ###on option #5, print("Goodbye.") then quit()
     count = count + 1
           
 
