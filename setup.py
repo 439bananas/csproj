@@ -81,6 +81,7 @@ def admin():
           maxnumtoshow = str(len(result))
           usertotoggleadmin = int(input("Which user do you wish to change groups for (toggle, 1-" + maxnumtoshow + ")? "))
           print(result)
+          # GO BACK TO REMOVING USERS AND CHANGE SO THAT A MINIMUM OF ONE USER CAN EXIST, ALSO AT START ENSURE THAT AT LEAST ONE ADMINISTRATOR ACCOUNT EXISTS!!!
           # YOU MUST CHECK IF THE USER EXISTS!!!
           #if 1
           #cursor.execute("UPDATE users SET admin 0 WHERE username='" + str(result[usertotoggleadmin-1][2]) + "'") 
