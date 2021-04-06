@@ -25,31 +25,31 @@ def admin():
         if option < 1 or option > 5:
           print("Please select an option between 1 and 4")
         elif option == 1:
-          dupe = "false"
+          dupe = False
           newusername = ""
           newpassword = ""
-          while len(newpassword) < 8 or newpassword == newusername or dupe == "true":
-            newusername = input("Enter the username of the new user: ")
+          while len(newpassword) < 8 or newpassword == newusername or dupe == True:
+            newusername = input("Enter the username of the new user: ").lower()
             newpassword = getpass.getpass(prompt="Enter the password of the new user:")
             for item in result:
               if newusername == item[0]:
-                dupe = "true"
+                dupe = True
                 break
               else:
-                dupe = "false"
-            if dupe == "true" and not " " in newusername and not " " in newpassword:
+                dupe = False
+            if dupe == True and not " " in newusername and not " " in newpassword:
               print("A user with that username already exists!")
             if " " in newusername or " " in newpassword:
               print("You must not have any spaces in your username or password!")
-            if (newusername == newpassword or len(newpassword) < 8) and (dupe == "false") and not " " in newusername and not " " in newpassword:
+            if (newusername == newpassword or len(newpassword) < 8) and (dupe == False) and not " " in newusername and not " " in newpassword:
               print("Invalid password!")
             admin = ""
           while admin != "yes" and admin != "no":
             admin = input("Would you like this user to have administrative privileges? (yes/no) ")
             if admin == "yes":
-              adm = "true"
+              adm = True
             elif admin == "no":
-              adm = "false"
+              adm = False
             else:
               print("You must specify if the user you wish to add should have administrative privileges!")
             cursor.execute("INSERT INTO users(username,password,admin) VALUES('" + newusername + "', SHA2('" + newusername + newpassword + "', 256), " + adm + ")") # https://www.mysqltutorial.org/mysql-insert-statement.aspx https://stackoverflow.com/questions/34712665/mysql-sha256-with-insert-statement
@@ -67,13 +67,13 @@ def admin():
             maxnumtoshow = str(len(result))
             timesasked = 0
             usertoremove = int()
-            inrange = "false"
-            while (result[usertoremove-1][2] == 1 and admincount < 1) or (timesasked < 1) or inrange == "false":
+            inrange = False
+            while (result[usertoremove-1][2] == 1 and admincount < 1) or (timesasked < 1) or inrange == False:
               usertoremove = int(input("Which user do you wish to remove (1-" + maxnumtoshow + ")? ")) # as per my own wonderful vocabulary, "yucky, yucky, yucky"
               if usertoremove < 1 or usertoremove > len(result):
                 print("Please select an option between 1 and " + maxnumtoshow)
               else:
-                inrange = "true"
+                inrange = True
                 if result[usertoremove-1][2] == 1 and admincount < 2:
                   print("There must be at least one administrator!")
                 else:
@@ -93,7 +93,7 @@ def admin():
           cursor.execute("SELECT * FROM users;")
           result = cursor.fetchall()
           adm = ""
-          inrange = "false"
+          inrange = False
           admincount = 0
           for i in result:
             if i[2] == 0:
@@ -105,21 +105,21 @@ def admin():
           maxnumtoshow = str(len(result))
           usertotoggleadmin = int()
           timesasked = 0
-          valid = "false"
-          changed = "false"
-          while (valid == "false") or (timesasked < 1) or inrange == "false":
+          valid = False
+          changed = False
+          while (valid == False) or (timesasked < 1) or inrange == False:
             timesasked = timesasked + 1
             usertotoggleadmin = int(input("Which user do you wish to change groups for (toggle, 1-" + maxnumtoshow + ")? "))
             if usertotoggleadmin < 1 or usertotoggleadmin > len(result):
               print("Please select an option between 1 and " + maxnumtoshow)
             else:
-              inrange = "true"
+              inrange = True
               if result[usertotoggleadmin-1][2] == 1:
                 if admincount > 1:
-                  valid = "true"
+                  valid = True
                   cursor.execute("UPDATE users SET admin = false WHERE username='" + str(result[usertotoggleadmin-1][0]) + "'") 
                   db.commit()
-                  changed = "true"
+                  changed = True
                   if username == str(result[usertotoggleadmin-1][0]):
                     print("You no longer have access to the admin panel. Goodbye.")
                     quit()
@@ -128,15 +128,15 @@ def admin():
               else:
                   cursor.execute("UPDATE users SET admin = true WHERE username='" + str(result[usertotoggleadmin-1][0]) + "'") 
                   db.commit()
-                  changed = "true"
-              if changed == "true":
+                  changed = True
+              if changed == True:
                 print("Group changed")
                 break
         elif option == 4:
           option = 0
           cursor.execute("SELECT * FROM users;")
           result = cursor.fetchall()
-          inrange = "false"
+          inrange = False
           for i in result:
             print(result.index(i) + 1, end=") " + i[0] + "\n")
           maxnumtoshow = str(len(result))
@@ -172,15 +172,23 @@ def admin():
         if option < 1 or option > 3:
           print("Please select an option between 1 and 3")
       if option == 1:
-        songname = input("Enter the name of the song which you wish to add: ")
-        songwriter = input("Enter the writer of the song: ")
+        songname = ""
+        while songname == "":
+          songname = input("Enter the name of the song which you wish to add: ")
+          if songname == "":
+            print("The song name must not be blank!")
+        songwriter = ""
+        while songwriter == "":
+          songwriter = input("Enter the writer of the song: ")
+          if songwriter == "":
+            print("The song writer must not be blank!")
         songnamesa = open("songnames.txt", "a")
         songwritersa = open("songwriters.txt", "a")
         songnamesa.write("\n" + songname)
         songnamesa.close()
         songwritersa.write("\n" + songwriter)
         songwritersa.close()
-      if option == 2:
+      elif option == 2:
         songnames = open("songnames.txt", "r+")
         songwriters = open("songwriters.txt", "r+")
         lines = songnames.readlines()
@@ -191,28 +199,31 @@ def admin():
         songnames.close()
         songcount = 0
         for i in lines:
-          songcount = songcount + 1
-          if songcount == len(lines):
-            lines2.append(i)
-          else:
-            if i != "\n":
-              lines2.append(i[0:(len(i))-2])
-        songcount = 0
-        print(lines2)
+          if i != "\n":
+            songcount = songcount + 1
+            lines2.append(i.strip())
         for i in lines3:
-          songcount = songcount + 1
-          if songcount == len(lines3):
-            lines4.append(i)
-          else:
-            if i != "\n":
-              lines4.append(i[0:len(i)-1])
+          if i != "\n":
+            lines4.append(i.strip())
+        songnamescleanup = open("songnames.txt", "w+")
+        songwriterscleanup = open("songwriters.txt", "w+")
+        for i in lines2:
+          songnamescleanup.write(i + "\n")
+        for i in lines4:
+          songwriterscleanup.write(i + "\n")
+        songnamescleanup.close()
+        songwriterscleanup.close()
         if len(lines2) == 0:
           print("There are no songs!")
         else:
           for i in range(len(lines2)):
             songid = int(i)
             print(songid + 1, end=") " + lines2[i] + " by " + lines4[songid] + "\n")
-          songtoremove = int(input("Which song do you wish to remove (1-" + str(len(lines)) + ")? "))
+          songtoremove = 0
+          while songtoremove < 1 or songtoremove > len(lines2):
+            songtoremove = int(input("Which song do you wish to remove (1-" + str(len(lines2)) + ")? "))
+            if songtoremove < 1 or songtoremove > len(lines2):
+              print("Please select an option between 1 and " + str(len(lines2)))
           confirmation = input("Are you sure you wish to remove " + lines2[songtoremove-1] + " by " + lines4[songtoremove-1] + "? The song will no longer be displayed! (yes/no) ")
           if confirmation == "yes":
             del lines2[songtoremove-1]
@@ -227,29 +238,36 @@ def admin():
             songwritersrem.close()
             songnames.close()
             songwriters.close()
-            print(lines2 + lines4)
-            # REMOVE \n FROM ALL RESULTS??? CONFIRMATION DOES ACTION; QUIT OPTION
+            print("Removed song.")
+          else:
+            print("Abort.")
+      elif option == 3:
+        print("Goodbye.")
+        quit()
+    elif option == 3:
+      print("Goodbye.")
+      quit()
     runs = runs + 1
 
 def fts():
   cursor.execute("SELECT * FROM users;")
   result = cursor.fetchall()
-  dupe = "true"
-  while dupe == "true":
-    masterusername = input("Enter a username. This will be used as an administrator account to manage every user and song: ")
+  dupe = True
+  while dupe == True:
+    masterusername = input("Enter a username. This will be used as an administrator account to manage every user and song: ").lower()
     if " " in masterusername:
       print("You must not have any spaces in your username!")
       quit()
     if len(result) == "0":
       for item in result:
         if masterusername == item[0]:
-          dupe = "true"
+          dupe = True
           break
         else:
-          dupe = "false"
+          dupe = False
     else:
-      dupe = "false"
-    if dupe == "true" and not " " in masterusername:
+      dupe = False
+    if dupe == True and not " " in masterusername:
       print("A user with that username already exists!")
   masterpassword = ""
   confirmpassword = ""
@@ -270,13 +288,14 @@ def fts():
   cursor.execute("INSERT INTO users(username,password,admin) VALUES('" + masterusername + "', SHA2('" + masterusername + masterpassword + "', 256), true)") # https://www.mysqltutorial.org/mysql-insert-statement.aspx https://stackoverflow.com/questions/34712665/mysql-sha256-with-insert-statement
   db.commit()
   admin()
+
 cursor.execute("SHOW TABLES")
 admincount = int(0)
-tablefound = "false"
+tablefound = False
 for x in cursor:
   if x[0] == "users": # https://stackoverflow.com/questions/28624796/removing-characters-from-mysql-query-results-in-python
-    tablefound = "true"
-if tablefound == "false":
+    tablefound = True
+if tablefound == False:
   cursor.execute("CREATE TABLE users (username TEXT, password TEXT, admin BOOLEAN)")
   fts()
 cursor.execute("SELECT * FROM users;")
@@ -290,9 +309,9 @@ else:
 if admincount < 1:
   fts()
 else:
-  found = "false"
-  while found == "false":
-    username = input("Enter an administrator’s username: ")
+  found = False
+  while found == False:
+    username = input("Enter an administrator’s username: ").lower()
     if " " in username:
       print("You must not have any spaces in your username!")
       quit()
@@ -306,14 +325,14 @@ else:
     hashedpass = cursor.fetchall()[0][0]
     for row in result:
       if row[0] == username:
-        found = "true"
+        found = True
       if row[1] != hashedpass:
-        found = "false"
+        found = False
       if row[2] != 1:
-        found = "false"
-      if found == "true":
+        found = False
+      if found == True:
         break
-    if found == "false":
+    if found == False:
       print("Invalid username or password")
     else:
       admin()
