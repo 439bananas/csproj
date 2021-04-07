@@ -72,7 +72,6 @@ while found == False:
       print("FATAL: There are no songs! Please run python3 setup.py before rerunning this file.")
       exit()
 
-    fails = 0
     score = 0
     songnames = open("songnames.txt", "r+")
     songwriters = open("songwriters.txt", "r+")
