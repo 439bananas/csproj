@@ -22,7 +22,6 @@ else:
   if len(result) < 1:
     print("FATAL: The database does not appear to have been configured! Please run python3 setup.py before rerunning this file.")
 
-# AT THIS STAGE PERFORM AUTHENTICATION!!!!
 found = False
 while found == False:
   username = input("Enter your username: ").lower()
