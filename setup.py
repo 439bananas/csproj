@@ -23,7 +23,7 @@ def admin():
       while option < 1 or option > 5:
         option = int(input("Pick a task you wish to do:\n1) Add users\n2) Remove users\n3) Change user groups\n4) Reset passwords\n5) Quit\n"))
         if option < 1 or option > 5:
-          print("Please select an option between 1 and 4")
+          print("Please select an option between 1 and 5")
         elif option == 1:
           dupe = False
           newusername = ""
