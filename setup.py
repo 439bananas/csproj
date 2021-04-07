@@ -258,7 +258,7 @@ def fts():
     if " " in masterusername:
       print("You must not have any spaces in your username!")
       quit()
-    if len(result) == "0":
+    if len(result) != "0":
       for item in result:
         if masterusername == item[0]:
           dupe = True
