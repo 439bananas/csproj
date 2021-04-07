@@ -60,8 +60,8 @@ while found == False:
     for i in lines3:
       if i != "\n":
         lines4.append(i.strip())
-      songnamescleanup = open("songnames.txt", "w+")
-      songwriterscleanup = open("songwriters.txt", "w+")
+    songnamescleanup = open("songnames.txt", "w+")
+    songwriterscleanup = open("songwriters.txt", "w+")
     for i in lines2:
       songnamescleanup.write(i + "\n")
     for i in lines4:
