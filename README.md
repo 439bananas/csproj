@@ -8,6 +8,10 @@ In each part of my pseudocode, I will write comments on what this code will do f
 * Git (and added to path)
 * A MySQL user (recommended not to use root!) and database (this is not required, you can also use the built-in MySQL server). If you want to automate the database creation and preparation, feel free to run `sudo mysql -u root -p mysql < dbprep.sql` (https://github.com/439bananas/csproj/blob/master/dbprep.sql)
 
+# Downloading and preparing environment
+**Windows:** Run `powershell iwr -outf setup.bat https://raw.githubusercontent.com/439bananas/csproj/master/setup.bat && setup`\
+**Linux/MasOS:** Run `wget https://raw.githubusercontent.com/439bananas/csproj/master/setup.sh && bash ./setup.sh`
+
 # Running/configuring
 To configure the project, run python3 setup.py in your command line of choice. When run for the first time, the project will create user tables and ask you to set up a master username and password. When rerun, you will be presented with a prompt as to what you wish to do. To add songs, enter “2” followed by “1”. You will then be prompted to enter a song name and its writer.\
 When entering passwords, the project uses a module called `getpass`, so whilst it won't show on your screen, the password that you are entering *is* being entered (like Linux).
