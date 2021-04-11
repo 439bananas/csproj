@@ -25,16 +25,16 @@ else:
 found = False
 while found == False:
   username = input("Enter your username: ").lower()
-  if " " in username:
-    print("You must not have any spaces in your username!")
+  if "\\" in username or " " in username:
+    print("You must not have any backslashes or spaces in your username!")
     quit()
   password = getpass.getpass(prompt="Enter your password:")
-  if " " in password:
-    print("You must not have any spaces in your password!")
+  if "\\" in password or " " in password:
+    print("You must not have any backslashes or spaces in your password!")
     quit()
   cursor.execute("SELECT * FROM users;")
   result = cursor.fetchall()
-  cursor.execute("SELECT SHA2('" + username + password + "', 256)")
+  cursor.execute("SELECT SHA2(%s, 256)", (username + password,))
   hashedpass = cursor.fetchall()[0][0]
   for row in result:
     if row[0] == username:
