@@ -31,6 +31,10 @@ def admin(username):
           while len(newpassword) < 8 or newpassword == newusername or dupe == True:
             newusername = input("Enter the username of the new user: ").lower()
             newpassword = getpass.getpass(prompt="Enter the password of the new user:")
+            if newpassword == "":
+              print("Abort.")
+              option = 0
+              break
             for item in result:
               if newusername == item[0]:
                 dupe = True
@@ -44,16 +48,22 @@ def admin(username):
             if (newusername == newpassword or len(newpassword) < 8) and (dupe == False) and not "\\" in newusername and not "\\" in newpassword and not " " in newusername and not " " in newpassword:
               print("Invalid password!")
             admin = ""
-          while admin != "yes" and admin != "no":
-            admin = input("Would you like this user to have administrative privileges? (yes/no) ")
-            if admin == "yes":
-              adm = True
-            elif admin == "no":
-              adm = False
-            else:
-              print("You must specify if the user you wish to add should have administrative privileges!")
-            cursor.execute("INSERT INTO users(username, password, admin) VALUES (%s, SHA2(%s, 256), %s)", (newusername, newusername + newpassword, adm)) # https://www.mysqltutorial.org/mysql-insert-statement.aspx https://stackoverflow.com/questions/34712665/mysql-sha256-with-insert-statement
-            db.commit()
+          if newpassword != "":
+            while admin != "yes" and admin != "no":
+              admin = input("Would you like this user to have administrative privileges? (yes/no) ")
+              if admin == "yes":
+                adm = True
+              elif admin == "no":
+                adm = False
+              elif admin == "":
+                print("Abort.")
+                break
+              else:
+                print("You must specify if the user you wish to add should have administrative privileges!")
+              if admin == "yes" or admin == "no":
+                cursor.execute("INSERT INTO users(username, password, admin) VALUES (%s, SHA2(%s, 256), %s)", (newusername, newusername + newpassword, adm)) # https://www.mysqltutorial.org/mysql-insert-statement.aspx https://stackoverflow.com/questions/34712665/mysql-sha256-with-insert-statement
+                db.commit()
+                print("Added user.")
         elif option == 2:
           option = 0
           cursor.execute("SELECT * FROM users;")
@@ -69,8 +79,11 @@ def admin(username):
             usertoremove = int()
             inrange = False
             while (result[usertoremove-1][2] == 1 and admincount < 1) or (timesasked < 1) or inrange == False:
-              usertoremove = int(input("Which user do you wish to remove (1-" + maxnumtoshow + ")? ")) # as per my own wonderful vocabulary, "yucky, yucky, yucky"
-              if usertoremove < 1 or usertoremove > len(result):
+              usertoremove = int(input("Which user do you wish to remove (1-" + maxnumtoshow + ", entering 0 aborts)? ")) # as per my own wonderful vocabulary, "yucky, yucky, yucky"
+              if usertoremove == 0:
+                print("Abort.")
+                break
+              elif usertoremove < 1 or usertoremove > len(result):
                 print("Please select an option between 1 and " + maxnumtoshow)
               else:
                 inrange = True
@@ -112,8 +125,11 @@ def admin(username):
           changed = False
           while (valid == False) or (timesasked < 1) or inrange == False:
             timesasked = timesasked + 1
-            usertotoggleadmin = int(input("Which user do you wish to change groups for (toggle, 1-" + maxnumtoshow + ")? "))
-            if usertotoggleadmin < 1 or usertotoggleadmin > len(result):
+            usertotoggleadmin = int(input("Which user do you wish to change groups for (toggle, 1-" + maxnumtoshow + ", entering 0 aborts)? "))
+            if usertotoggleadmin == 0:
+              print("Abort.")
+              break
+            elif usertotoggleadmin < 1 or usertotoggleadmin > len(result):
               print("Please select an option between 1 and " + maxnumtoshow)
             else:
               inrange = True
@@ -149,8 +165,8 @@ def admin(username):
           newpassword = ""
           confirmpassword = ""
           while len(newpassword) < 8 or newpassword == usernametoresetpassword:
-            usertoresetpassword = int(input("Whose password do you wish to reset (1-" + maxnumtoshow + ")? "))
-            if usertoresetpassword == "":
+            usertoresetpassword = int(input("Whose password do you wish to reset (1-" + maxnumtoshow + "), entering 0 aborts? "))
+            if usertoresetpassword == 0:
               option = 0
               print("Abort.")
               break
@@ -166,7 +182,10 @@ def admin(username):
               break
           while confirmpassword != newpassword:
             confirmpassword = getpass.getpass(prompt="Confirm password:")
-            if confirmpassword != newpassword:
+            if confirmpassword == "":
+              print("Abort.")
+              break
+            elif confirmpassword != newpassword:
               print("Passwords do not match!")
             else:
               cursor.execute("UPDATE users SET password=SHA2(%s, 256) WHERE username=%s", (usernametoresetpassword + newpassword, usernametoresetpassword))
@@ -234,7 +253,7 @@ def admin(username):
               songtoremove = int(input("Which song do you wish to remove (1-" + str(len(lines2)) + ")? "))
               if songtoremove < 1 or songtoremove > len(lines2):
                 print("Please select an option between 1 and " + str(len(lines2)))
-              if songtoremove == "":
+              if songtoremove == 0:
                 option = 0
                 print("Abort.")
                 break
