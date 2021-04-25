@@ -9,7 +9,7 @@ In each part of my pseudocode, I will write comments on what this code will do f
 * A MySQL user (recommended not to use root!) and database (this is not required, you can also use the built-in MySQL server). If you want to automate the database creation and preparation, feel free to run `sudo mysql -u root -p mysql < dbprep.sql` (https://github.com/439bananas/csproj/blob/master/dbprep.sql)
 
 # Downloading and preparing environment
-**Windows:** Run `powershell iwr -outf setup.bat https://raw.githubusercontent.com/439bananas/csproj/master/setup.bat && setup`\
+**Windows:** Run `powershell iwr -outf setup.bat https://raw.githubusercontent.com/439bananas/csproj/master/setup.bat && setup.bat`\
 **Linux/MasOS:** Run `wget https://raw.githubusercontent.com/439bananas/csproj/master/setup.sh && bash ./setup.sh`
 
 # Running/configuring
